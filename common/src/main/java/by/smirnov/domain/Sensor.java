@@ -37,8 +37,10 @@ public class Sensor {
 
     private String model;
 
+    @Column(name = "range_from")
     private Integer rangeFrom;
 
+    @Column(name = "range_to")
     private Integer rangeTo;
 
     @Enumerated(EnumType.STRING)
