@@ -1,4 +1,4 @@
-package by.smirnov.sensorsmonitorapi;
+package by.smirnov;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
