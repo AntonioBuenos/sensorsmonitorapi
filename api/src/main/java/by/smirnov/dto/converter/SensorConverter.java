@@ -40,8 +40,8 @@ public class SensorConverter {
         return old;
     }
 
-    public SensorResponse convert(Sensor guitar) {
-        return modelMapper.map(guitar, SensorResponse.class);
+    public SensorResponse convert(Sensor sensor) {
+        return modelMapper.map(sensor, SensorResponse.class);
     }
 
 }
