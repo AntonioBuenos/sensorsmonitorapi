@@ -55,8 +55,8 @@ public class SensorController {
     @GetMapping(MAPPING_ID)
     public ResponseEntity<SensorResponse> show(@PathVariable(ID) long id) {
 
-        Sensor guitar = service.findById(id);
-        SensorResponse response = converter.convert(guitar);
+        Sensor sensor = service.findById(id);
+        SensorResponse response = converter.convert(sensor);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -94,8 +94,8 @@ public class SensorController {
     @DeleteMapping(MAPPING_ID)
     public ResponseEntity<Map<String, Boolean>> delete(@PathVariable(ID) long id) {
 
-        Sensor guitar = service.findById(id);
-        if (Boolean.TRUE.equals(guitar.getIsDeleted())) throw new NotModifiedException();
+        Sensor sensor = service.findById(id);
+        if (Boolean.TRUE.equals(sensor.getIsDeleted())) throw new NotModifiedException();
 
         Sensor deleted = service.delete(id);
         return new ResponseEntity<>(
