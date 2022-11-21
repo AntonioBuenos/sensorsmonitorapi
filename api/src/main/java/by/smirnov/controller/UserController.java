@@ -11,6 +11,7 @@ import by.smirnov.security.AuthChecker;
 import by.smirnov.service.UserService;
 import by.smirnov.validation.ValidationErrorConverter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 import static by.smirnov.constants.CommonConstants.ID;
@@ -32,6 +34,7 @@ import static by.smirnov.constants.CommonConstants.MAPPING_ID;
 import static by.smirnov.constants.CommonConstants.MAPPING_REST;
 import static by.smirnov.constants.ResponseEntityConstants.DELETED_STATUS;
 import static by.smirnov.controller.UserControllerConstants.MAPPING_USERS;
+import static by.smirnov.controller.UserControllerConstants.USERS;
 
 @RestController
 @RequiredArgsConstructor
@@ -41,6 +44,16 @@ public class UserController {
     private final UserService service;
     private final UserConverter converter;
     private final AuthChecker authChecker;
+
+    @GetMapping
+    public ResponseEntity<Map<String, List<UserResponse>>> index(Pageable pageable) {
+        List<UserResponse> users = service.findAll(pageable)
+                .stream()
+                .map(converter::convert)
+                .toList();
+        return new ResponseEntity<>(Collections.singletonMap(USERS, users), HttpStatus.OK);
+    }
+
 
     @GetMapping(MAPPING_ID)
     public ResponseEntity<UserResponse> show(@PathVariable(ID) long id, Principal principal) {
