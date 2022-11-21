@@ -31,14 +31,13 @@ import java.util.Map;
 
 import static by.smirnov.constants.CommonConstants.ID;
 import static by.smirnov.constants.CommonConstants.MAPPING_ID;
-import static by.smirnov.constants.CommonConstants.MAPPING_REST;
 import static by.smirnov.constants.ResponseEntityConstants.DELETED_STATUS;
 import static by.smirnov.controller.UserControllerConstants.MAPPING_USERS;
 import static by.smirnov.controller.UserControllerConstants.USERS;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(MAPPING_REST + MAPPING_USERS)
+@RequestMapping(MAPPING_USERS)
 public class UserController {
 
     private final UserService service;

@@ -30,14 +30,13 @@ import java.util.Map;
 
 import static by.smirnov.constants.CommonConstants.ID;
 import static by.smirnov.constants.CommonConstants.MAPPING_ID;
-import static by.smirnov.constants.CommonConstants.MAPPING_REST;
 import static by.smirnov.constants.ResponseEntityConstants.DELETED_STATUS;
 import static by.smirnov.controller.SensorControllerConstants.MAPPING_SENSORS;
 import static by.smirnov.controller.SensorControllerConstants.SENSORS;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(MAPPING_REST + MAPPING_SENSORS)
+@RequestMapping(MAPPING_SENSORS)
 public class SensorController {
 
     private final SensorService service;
@@ -60,7 +59,7 @@ public class SensorController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @PostMapping
     public ResponseEntity<SensorResponse> create(
             @RequestBody @Valid SensorRequest request,
@@ -75,7 +74,7 @@ public class SensorController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @PutMapping(MAPPING_ID)
     public ResponseEntity<SensorResponse> update(@PathVariable(name = ID) Long id,
                                                  @RequestBody @Valid SensorRequest request,
@@ -90,7 +89,7 @@ public class SensorController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @DeleteMapping(MAPPING_ID)
     public ResponseEntity<Map<String, Boolean>> delete(@PathVariable(ID) long id) {
 
