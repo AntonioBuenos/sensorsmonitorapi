@@ -1,6 +1,8 @@
 package by.smirnov;
 
 import by.smirnov.config.PersistenceProvidersConfiguration;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.boot.SpringApplication;
@@ -12,6 +14,11 @@ import static org.modelmapper.config.Configuration.AccessLevel.PRIVATE;
 
 @SpringBootApplication(scanBasePackages = "by.smirnov")
 @Import({PersistenceProvidersConfiguration.class})
+@SecurityScheme(name = "JWT Bearer",
+		type = SecuritySchemeType.HTTP,
+		scheme = "bearer",
+		bearerFormat = "JWT",
+		description = "Bearer token for the project.")
 public class SensorsmonitorapiApplication {
 
 	public static void main(String[] args) {
