@@ -32,12 +32,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/v3/api-docs", "/configuration/ui/**", "/swagger-resources/**",
                         "/configuration/security/**", "/swagger-ui/**", "/webjars/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/swagger-ui.index").permitAll()
-                .antMatchers("/auth/**", "/verify", "/error").permitAll()
-                .antMatchers(HttpMethod.GET, "/rest/guitars/**",
-                        "/rest/genres/**", "/rest/manufacturers/**", "/rest/instocks/**").permitAll()
-                .antMatchers("/rest/orders/**", "/rest/users/**").authenticated()
-                .antMatchers("/rest/admin/**").hasRole("ADMIN")
-                .anyRequest().hasAnyRole("MANAGER", "ADMIN")
+                .antMatchers("/auth/**", "/error").permitAll()
+                .antMatchers(HttpMethod.GET, "/sensors/**").permitAll()
+                .antMatchers("/users/**").authenticated()
+                .antMatchers("/admin/**").hasRole("ADMINISTRATOR")
+                .anyRequest().hasRole("ADMINISTRATOR")
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);

@@ -8,6 +8,8 @@ import by.smirnov.exceptionhandle.BadRequestException;
 import by.smirnov.exceptionhandle.NotModifiedException;
 import by.smirnov.service.SensorService;
 import by.smirnov.validation.ValidationErrorConverter;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -59,6 +61,7 @@ public class SensorController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @Operation(security = {@SecurityRequirement(name = "JWT Bearer")})
     @PreAuthorize("hasRole('ADMINISTRATOR')")
     @PostMapping
     public ResponseEntity<SensorResponse> create(

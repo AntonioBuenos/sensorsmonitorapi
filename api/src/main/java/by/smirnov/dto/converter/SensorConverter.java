@@ -4,6 +4,7 @@ import by.smirnov.domain.Sensor;
 import by.smirnov.domain.Type;
 import by.smirnov.dto.sensors.SensorRequest;
 import by.smirnov.dto.sensors.SensorResponse;
+import by.smirnov.exceptionhandle.BadRequestException;
 import by.smirnov.service.SensorService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -23,6 +24,10 @@ public class SensorConverter {
         Sensor created = modelMapper.map(request, Sensor.class);
         created.setCreationDate(Timestamp.valueOf(LocalDateTime.now()));
         created.setIsDeleted(false);
+        if (!request.getUnit().equals(Type.valueOf(request.getType()).getUnit())){
+            throw new BadRequestException("Unit does not conform chosen type.");
+        }
+        else created.setType(Type.valueOf(request.getType()));
 
         return created;
     }
