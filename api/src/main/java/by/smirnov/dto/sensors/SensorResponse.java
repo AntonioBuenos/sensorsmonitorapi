@@ -21,8 +21,9 @@ public class SensorResponse {
 
     private Integer rangeTo;
 
-    @Enumerated(EnumType.STRING)
-    private Type type;
+    private String typeName;
+
+    private String unit;
 
     private String location;
 

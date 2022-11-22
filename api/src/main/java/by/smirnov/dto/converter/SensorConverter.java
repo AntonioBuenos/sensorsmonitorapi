@@ -13,6 +13,8 @@ import org.springframework.stereotype.Component;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
+import static by.smirnov.constants.ResponseEntityConstants.BAD_UNIT_TYPE_MESSAGE;
+
 @RequiredArgsConstructor
 @Component
 public class SensorConverter {
@@ -21,18 +23,18 @@ public class SensorConverter {
     private final SensorService service;
 
     public Sensor convert(SensorRequest request) {
+        request.setType(request.getType().toUpperCase());
+        checkUnitTypeCorrespondance(request);
         Sensor created = modelMapper.map(request, Sensor.class);
         created.setCreationDate(Timestamp.valueOf(LocalDateTime.now()));
         created.setIsDeleted(false);
-        if (!request.getUnit().equals(Type.valueOf(request.getType()).getUnit())){
-            throw new BadRequestException("Unit does not conform chosen type.");
-        }
-        else created.setType(Type.valueOf(request.getType()));
 
         return created;
     }
 
     public Sensor convert(SensorRequest request, Long id) {
+        request.setType(request.getType().toUpperCase());
+        checkUnitTypeCorrespondance(request);
         Sensor old = service.findById(id);
         old.setModificationDate(Timestamp.valueOf(LocalDateTime.now()));
         old.setName(request.getName());
@@ -46,7 +48,17 @@ public class SensorConverter {
     }
 
     public SensorResponse convert(Sensor sensor) {
-        return modelMapper.map(sensor, SensorResponse.class);
+        SensorResponse response = modelMapper.map(sensor, SensorResponse.class);
+        Type type = sensor.getType();
+        response.setTypeName(type.getTypeName());
+        response.setUnit(type.getUnit());
+        return response;
+    }
+
+    private void checkUnitTypeCorrespondance(SensorRequest request){
+        if (!request.getUnit().equals(Type.valueOf(request.getType()).getUnit())){
+            throw new BadRequestException(BAD_UNIT_TYPE_MESSAGE);
+        }
     }
 
 }
