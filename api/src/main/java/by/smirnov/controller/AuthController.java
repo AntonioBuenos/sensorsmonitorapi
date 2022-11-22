@@ -14,6 +14,8 @@ import by.smirnov.security.JWTUtil;
 import by.smirnov.security.RegistrationService;
 import by.smirnov.validation.PersonValidator;
 import by.smirnov.validation.ValidationErrorConverter;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -97,6 +99,7 @@ public class AuthController {
         );
     }
 
+    @Operation(security = {@SecurityRequirement(name = "JWT Bearer")})
     @PutMapping(MAPPING_ID)
     public ResponseEntity<AuthResponse> changeCredentials(@PathVariable(ID) long id,
                                                           @RequestBody @Valid AuthChangeRequest request,

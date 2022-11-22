@@ -77,6 +77,7 @@ public class SensorController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
+    @Operation(security = {@SecurityRequirement(name = "JWT Bearer")})
     @PreAuthorize("hasRole('ADMINISTRATOR')")
     @PutMapping(MAPPING_ID)
     public ResponseEntity<SensorResponse> update(@PathVariable(name = ID) Long id,
@@ -92,6 +93,7 @@ public class SensorController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @Operation(security = {@SecurityRequirement(name = "JWT Bearer")})
     @PreAuthorize("hasRole('ADMINISTRATOR')")
     @DeleteMapping(MAPPING_ID)
     public ResponseEntity<Map<String, Boolean>> delete(@PathVariable(ID) long id) {

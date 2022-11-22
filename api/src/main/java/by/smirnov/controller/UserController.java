@@ -2,28 +2,24 @@ package by.smirnov.controller;
 
 import by.smirnov.domain.User;
 import by.smirnov.dto.converter.UserConverter;
-import by.smirnov.dto.users.AuthChangeRequest;
 import by.smirnov.dto.users.UserResponse;
 import by.smirnov.exceptionhandle.AccessForbiddenException;
-import by.smirnov.exceptionhandle.BadRequestException;
 import by.smirnov.exceptionhandle.NotModifiedException;
 import by.smirnov.security.AuthChecker;
 import by.smirnov.service.UserService;
-import by.smirnov.validation.ValidationErrorConverter;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
 import java.security.Principal;
 import java.util.Collections;
 import java.util.List;
@@ -44,6 +40,8 @@ public class UserController {
     private final UserConverter converter;
     private final AuthChecker authChecker;
 
+    @Operation(security = {@SecurityRequirement(name = "JWT Bearer")})
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @GetMapping
     public ResponseEntity<Map<String, List<UserResponse>>> index(Pageable pageable) {
         List<UserResponse> users = service.findAll(pageable)
@@ -54,10 +52,11 @@ public class UserController {
     }
 
 
+    @Operation(security = {@SecurityRequirement(name = "JWT Bearer")})
     @GetMapping(MAPPING_ID)
     public ResponseEntity<UserResponse> show(@PathVariable(ID) long id, Principal principal) {
 
-        if (authChecker.isAuthorized(principal.getName(), id)) throw new AccessForbiddenException();
+        if (!authChecker.isAuthorized(principal.getName(), id)) throw new AccessForbiddenException();
 
         User user = service.findById(id);
 
@@ -65,25 +64,7 @@ public class UserController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PutMapping(MAPPING_ID)
-    public ResponseEntity<UserResponse> update(@PathVariable(name = ID) Long id,
-                                               @RequestBody @Valid AuthChangeRequest request,
-                                               BindingResult bindingResult,
-                                               Principal principal) {
-
-        if (bindingResult.hasErrors()) {
-            throw new BadRequestException(ValidationErrorConverter.getErrors(bindingResult).toString());
-        }
-
-        User user = service.findById(id);
-        if (!authChecker.isAuthorized(principal.getName(), id)) throw new AccessForbiddenException();
-        else if (Boolean.TRUE.equals(user.getIsDeleted())) throw new NotModifiedException();
-
-        User changed = service.update(converter.convert(request, id));
-        UserResponse response = converter.convert(changed);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
+    @Operation(security = {@SecurityRequirement(name = "JWT Bearer")})
     @DeleteMapping(MAPPING_ID)
     public ResponseEntity<Map<String, Boolean>> delete(@PathVariable(ID) long id, Principal principal) {
 
