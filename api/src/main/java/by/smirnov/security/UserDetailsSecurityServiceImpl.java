@@ -2,6 +2,7 @@ package by.smirnov.security;
 
 import by.smirnov.domain.User;
 import by.smirnov.repository.UserRepository;
+import by.smirnov.repository.UserRepositoryImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

@@ -36,7 +36,6 @@ public class SensorConverter {
         request.setType(request.getType().toUpperCase());
         checkUnitTypeCorrespondance(request);
         Sensor old = service.findById(id);
-        old.setModificationDate(Timestamp.valueOf(LocalDateTime.now()));
         old.setName(request.getName());
         old.setModel(request.getModel());
         old.setRangeFrom(request.getRangeFrom());

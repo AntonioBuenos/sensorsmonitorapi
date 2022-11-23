@@ -3,13 +3,11 @@ package by.smirnov.service;
 import by.smirnov.domain.User;
 import by.smirnov.exception.NoSuchEntityException;
 import by.smirnov.repository.UserRepository;
+import by.smirnov.repository.UserRepositoryImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -31,32 +29,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findAll(Pageable pageable) {
-        return repository
-                .findByIsDeleted(pageable, false)
-                .getContent();
+    public List<User> findAll() {
+        return repository.findAll();
     }
 
     @Transactional
     @Override
     public User update(User toBeUpdated) {
-        return repository.save(toBeUpdated);
+        return repository.update(toBeUpdated);
     }
 
     @Transactional
     @Override
     public User delete(Long id) {
-        User toBeDeleted = repository
-                .findById(id)
-                .orElseThrow(NoSuchEntityException::new);
-        toBeDeleted.setIsDeleted(true);
-        toBeDeleted.setTerminationDate(Timestamp.valueOf(LocalDateTime.now()));
-        return repository.save(toBeDeleted);
+        return repository.delete(id);
     }
 
     @Transactional
     @Override
     public void hardDelete(Long id){
-        repository.deleteById(id);
+        repository.hardDelete(id);
     }
 }

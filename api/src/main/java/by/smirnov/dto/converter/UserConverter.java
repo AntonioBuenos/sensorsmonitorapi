@@ -39,7 +39,6 @@ public class UserConverter {
         User old = service.findById(id);
         old.setLogin(request.getNewLogin());
         old.setPassword(request.getNewPassword());
-        old.setModificationDate(Timestamp.valueOf(LocalDateTime.now()));
         return old;
     }
 

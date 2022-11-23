@@ -43,8 +43,8 @@ public class UserController {
     @Operation(security = {@SecurityRequirement(name = "JWT Bearer")})
     @PreAuthorize("hasRole('ADMINISTRATOR')")
     @GetMapping
-    public ResponseEntity<Map<String, List<UserResponse>>> index(Pageable pageable) {
-        List<UserResponse> users = service.findAll(pageable)
+    public ResponseEntity<Map<String, List<UserResponse>>> index() {
+        List<UserResponse> users = service.findAll()
                 .stream()
                 .map(converter::convert)
                 .toList();

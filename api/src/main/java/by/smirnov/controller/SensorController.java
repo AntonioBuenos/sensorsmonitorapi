@@ -45,8 +45,8 @@ public class SensorController {
     private final SensorConverter converter;
 
     @GetMapping
-    public ResponseEntity<Map<String, List<SensorResponse>>> index(Pageable pageable) {
-        List<SensorResponse> sensors = service.findAll(pageable)
+    public ResponseEntity<Map<String, List<SensorResponse>>> index() {
+        List<SensorResponse> sensors = service.findAll()
                 .stream()
                 .map(converter::convert)
                 .toList();
