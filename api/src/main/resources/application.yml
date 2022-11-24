@@ -1,0 +1,41 @@
+spring:
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    baseline-description: Flyway Scripts
+    user: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+    url: ${spring.datasource.url}
+    default-schema: sensorsdb
+    out-of-order: true
+    ignore-migration-patterns: '*:ignored'
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+    hiddenmethod:
+      filter:
+        enabled: true
+  datasource:
+    hikari:
+      jdbc-url: "jdbc:postgresql://localhost:5432/postgres"
+      maximum-pool-size: 10
+      driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: root
+    url: "jdbc:postgresql://localhost:5432/postgres"
+  cache:
+    type: Caffeine
+    cache-names: guitarManufacturer, genres
+    caffeine:
+      spec: initialCapacity=10,maximumSize=20, expireAfterAccess=10s
+  sql:
+    init:
+      mode: always
+server:
+  port: 8081
+
+---
+
+jwt:
+  secret: buenos
+  expiration: 24
