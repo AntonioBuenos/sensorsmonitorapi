@@ -5,8 +5,8 @@ This GuitarStoreProject is a RESTful Spring-based java backend web app for a Sen
 Its main logic is as follows:
 
 The project specification:
-- JDK 17 and Spring 3;
-- Spring Boot Rest Api;
+- JDK 17 and Spring 5;
+- Spring Boot 3 Rest Api;
 - 2-module structure (common & api);
 - Hibernate Repositories (Spring Data JPA version is also available on correspondent commit);
 - DB: PostgreSQL DB, Flyway;
