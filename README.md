@@ -1,7 +1,7 @@
 # SensorMonitorApi
 Backend Spring Project for SensorMonitorApi
 
-This GuitarStoreProject is a RESTful Spring-based java backend web app for a SensorMonitor store.
+This project is a RESTful Spring-based java backend web app for a SensorMonitor store.
 Its main logic is as follows:
 
 The project specification:
